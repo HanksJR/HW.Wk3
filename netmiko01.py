@@ -4,6 +4,7 @@ username = 'admin'
 password = 'cisco'
 device_ip = ['172.31.182.4','172.31.182.5','172.31.182.6','172.31.182.7','172.31.182.8','172.31.182.9']
 R1 = {
+        'hostname': 'R1',
         'device_ip': '172.31.182.4',
         'info' :[
                     {
@@ -45,6 +46,7 @@ R1 = {
     }
 
 R2 = {
+        'hostname': 'R2',
         'device_ip': '172.31.182.5',
         'info': [
                     {
@@ -86,6 +88,7 @@ R2 = {
     }
 
 R3 = {
+        'hostname': 'R3',
         'device_ip': '172.31.182.6',
         'info' :[
                     {
@@ -137,6 +140,7 @@ R3 = {
         ]
     }   
 R4 = {
+        'hostname': 'R4',
         'device_ip': '172.31.182.7',
         'info': [
                     {
@@ -168,6 +172,7 @@ R4 = {
         
 
 R5 = {
+        'hostname': 'R5',
         'device_ip': '172.31.182.9',
         'info': [ 
                     {
@@ -217,6 +222,7 @@ def config(iface, ip, netmask):
 
 def config_interface(device):
     ip = device["device_ip"]
+    name = device["hostname"]
     for router in device["info"]:
         cfg = config(router["interface"], router["ip"], router["netmask"])
         cfg.append("no shutdown")
@@ -229,9 +235,10 @@ def config_interface(device):
         with ConnectHandler(**device_params) as ssh:
             ssh.send_config_set(cfg)
             ssh.disconnect()
-    print(show_interface_brief(ip))
+    
+    write_file(name+"_config_interface.txt", save_show_interface_brief(ip))
 
-def show_interface_brief(ip):
+def save_show_interface_brief(ip):
     device_params = {'device_type': 'cisco_ios',
                     'ip': ip,
                     'username': username,
@@ -241,11 +248,12 @@ def show_interface_brief(ip):
     with ConnectHandler(**device_params) as ssh:
         interface = ssh.send_command('sh ip int br')
         ssh.disconnect()
+    
     return interface
 
 def routing(device):
     ip = device["device_ip"]
-
+    name = device["hostname"]
     for route in device["routing"]:
         routing = [
             "router {}".format(route["protocol"]),
@@ -261,16 +269,21 @@ def routing(device):
             ssh.send_config_set(routing)
             ssh.disconnect()
 
-    show_ip_route(ip)
+    write_file(name+"_routing.txt", save_show_ip_route(ip))
 
-def show_ip_route(ip):
+def save_show_ip_route(ip):
     device_params = {'device_type': 'cisco_ios',
                         'ip': ip,
                         'username': username,
                         'password': password,
                         }
     with ConnectHandler(**device_params) as ssh:
-        print(ssh.send_command('sh ip route'))
+        info = ssh.send_command('sh ip route')
         ssh.disconnect()
+    return info
 
+def write_file(name, text):
+    with open(name, 'w') as f:
+        f.write(text)
+        f.close()
 main()
