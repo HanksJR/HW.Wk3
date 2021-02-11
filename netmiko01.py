@@ -2,10 +2,11 @@ from netmiko import ConnectHandler
 
 username = 'admin'
 password = 'cisco'
-device_ip = ['172.31.182.4','172.31.182.5','172.31.182.6','172.31.182.7','172.31.182.8','172.31.182.9']
+device_ip = ['172.31.182.4','172.31.182.5','172.31.182.6','172.31.182.7','172.31.182.9']
+
 R1 = {
         'hostname': 'R1',
-        'device_ip': '172.31.182.4',
+        'device_ip': device_ip[0],
         'info' :[
                     {
                         'interface': "g0/1",
@@ -47,7 +48,7 @@ R1 = {
 
 R2 = {
         'hostname': 'R2',
-        'device_ip': '172.31.182.5',
+        'device_ip': device_ip[1],
         'info': [
                     {
                         'interface': 'g0/1',
@@ -89,7 +90,7 @@ R2 = {
 
 R3 = {
         'hostname': 'R3',
-        'device_ip': '172.31.182.6',
+        'device_ip': device_ip[2],
         'info' :[
                     {
                         'interface': "g0/1",
@@ -141,7 +142,7 @@ R3 = {
     }   
 R4 = {
         'hostname': 'R4',
-        'device_ip': '172.31.182.7',
+        'device_ip': device_ip[3],
         'info': [
                     {
                         'interface': 'g0/1',
@@ -173,7 +174,7 @@ R4 = {
 
 R5 = {
         'hostname': 'R5',
-        'device_ip': '172.31.182.9',
+        'device_ip': device_ip[4],
         'info': [ 
                     {
                         'interface': 'g0/1',
