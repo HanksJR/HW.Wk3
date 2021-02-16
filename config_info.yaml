@@ -1,4 +1,9 @@
 ---
+- name: S1
+  loopback: yes
+  num: -1
+  router: no
+  
 - name: R1
   loopback: yes
   num: 0
