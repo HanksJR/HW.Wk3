@@ -9,6 +9,7 @@ class Device:
         self.device = self.create_list(path)
         self.ip = ip
         create_config_file.create()
+        self.config(self.device, self.ip)
 
     def create_list(self, path):
         lis = []
