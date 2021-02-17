@@ -21,11 +21,12 @@ router ospf 1
 {% endfor %}
 !
 ip access-list extended block_management
- deny tcp any 172.31.182.0 0.0.0.31
+ deny tcp 172.31.182.16 0.0.0.15 172.31.182.0 0.0.0.31
+ deny tcp 172.31.182.32 0.0.0.15 172.31.182.0 0.0.0.31
+ deny tcp 172.31.182.48 0.0.0.15 172.31.182.0 0.0.0.31
+ deny tcp 172.31.182.64 0.0.0.15 172.31.182.0 0.0.0.31
  permit any any
 !
 interface gi0/0
  ip access-group block_management out
 {% endif %}
-
-
