@@ -24,5 +24,3 @@ def delete():
         config_file = path + device['name'] + '_delete_config.txt'
         with open(config_file, 'w') as f:
             f.write(template.render(device))
-
-delete()
