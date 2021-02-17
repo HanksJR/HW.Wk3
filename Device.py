@@ -1,4 +1,4 @@
-import os, yaml, create_config_file
+import os, yaml
 from netmiko import ConnectHandler
 
 class Device:
@@ -6,18 +6,16 @@ class Device:
     def __init__(self, username, password, path, ip):
         self.username = username
         self.password = password
-        self.device = self.create_list(path)
+        self.path = path
+        self.device = ["R1_config.txt", "R2_config.txt", "R3_config.txt", "R4_config.txt", "R5_config.txt", "S1_config.txt", "S2_config.txt", ]
         self.ip = ip
-        create_config_file.create()
-        create_config_file.delete()
-        self.config()
 
-    def create_list(self, path):
+    """def create_list(self,):
         lis = []
-        for file in os.listdir(path):
+        for file in os.listdir(self.path):
             if file.endswith(".txt"):
                 lis.append(file)
-        return lis
+        return lis"""
 
     def config(self):
         counter = 0
@@ -28,10 +26,11 @@ class Device:
                                 'password': self.password,
                                 }
             with ConnectHandler(**device_params) as ssh:
-                ssh.send_config_from_file(dev)
+                ssh.send_config_from_file("{}/{}".format(self.path, dev))
                 info = ssh.send_command("sh run")
                 devices = yaml.load(open('config_info.yaml'), Loader=yaml.FullLoader)
-                self.write_file(info, "information/{}_info.txt".format(devices[counter]["name"]))
+                self.write_file(info, "/home/devasc/Desktop/NPA.HW.netmiko/information/{}_info.txt".format(devices[counter]["name"]))
+            counter += 1
 
     def delete_config(self):
         counter = 0
@@ -42,10 +41,11 @@ class Device:
                                 'password': self.password,
                                 }
             with ConnectHandler(**device_params) as ssh:
-                ssh.send_config_from_file(dev)
+                ssh.send_config_from_file("{}/{}".format(self.path, dev))
                 info = ssh.send_command("sh run")
                 devices = yaml.load(open('config_info.yaml'), Loader=yaml.FullLoader)
-                self.write_file(info, "information/{}_info.txt".format(devices[counter]["name"]))
+                self.write_file(info, "/home/devasc/Desktop/NPA.HW.netmiko/information/{}_info.txt".format(devices[counter]["name"]))
+            counter += 1
 
     def write_file(self, info, name):
         with open(name, "w") as f:

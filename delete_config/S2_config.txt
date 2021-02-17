@@ -1,0 +1,16 @@
+no hostname 
+!
+no interface loopback 0
+!
+interface gi0/1
+ no description
+ shutdown
+ exit
+interface gi0/2
+ no description
+ shutdown
+ exit
+interface gi0/3
+ no description
+ shutdown
+ exit

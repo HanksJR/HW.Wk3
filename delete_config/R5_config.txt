@@ -1,0 +1,14 @@
+no hostname 
+!
+no interface loopback 0
+!
+interface gi0/1
+ no ip address
+ no description
+ shutdown
+ exit
+!
+no lldp run
+no cdp enable
+!
+no router ospf 1

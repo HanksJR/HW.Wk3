@@ -21,6 +21,6 @@ def delete():
 
     path = 'delete_config/'
     for device in devices:
-        config_file = path + device['name'] + '_delete_config.txt'
+        config_file = path + device['name'] + '_config.txt'
         with open(config_file, 'w') as f:
             f.write(template.render(device))
