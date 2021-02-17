@@ -3,15 +3,20 @@ no hostname
 {% if loopback %}
 no interface loopback 0
 {% endif %}
-{% if router %}
 !
 {% for int in interface %}
 interface gi0/{{int.id}}
+ {% if router %}
  no ip address
- no description 
- no cdp enable
+ {% endif %}
+ no description
  shutdown
  exit
-!
 {% endfor %}
+{% if router %}
+!
+no lldp run
+no cdp enable
+!
 no router ospf 1
+{% endif %}

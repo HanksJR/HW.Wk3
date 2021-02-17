@@ -1,9 +1,0 @@
-- name: String
-  loopback: Boolean
-  num: Integer
-  router: Boolean
-  interface:
-    - id: Integer
-      ip: String
-      netmask: String
-      desc: String
