@@ -7,8 +7,9 @@ password = "cisco"
 command = ""
 
 if __name__ == "__main__":
-    create.create()
-    create.delete()
+    if input() == "create":
+        create.create()
+        create.delete()
     command = input()
     if command == "config":
         path = "/home/devasc/Desktop/NPA.HW.netmiko/router_info"

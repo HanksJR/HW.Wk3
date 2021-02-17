@@ -10,13 +10,6 @@ class Device:
         self.device = ["R1_config.txt", "R2_config.txt", "R3_config.txt", "R4_config.txt", "R5_config.txt", "S1_config.txt", "S2_config.txt", ]
         self.ip = ip
 
-    """def create_list(self,):
-        lis = []
-        for file in os.listdir(self.path):
-            if file.endswith(".txt"):
-                lis.append(file)
-        return lis"""
-
     def config(self):
         counter = 0
         for dev in self.device:

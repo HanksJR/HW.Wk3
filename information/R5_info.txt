@@ -1,15 +1,15 @@
 Building configuration...
 
-Current configuration : 3321 bytes
+Current configuration : 3495 bytes
 !
-! Last configuration change at 18:56:23 UTC Wed Feb 17 2021 by admin
+! Last configuration change at 19:03:00 UTC Wed Feb 17 2021 by admin
 !
 version 15.7
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname Router
+hostname R5
 !
 boot-start-marker
 boot-end-marker
@@ -50,6 +50,7 @@ username admin privilege 15 password 0 cisco
 !
 redundancy
 !
+lldp run
 no cdp log mismatch duplex
 !
 ip tcp synwait-time 5
@@ -66,6 +67,9 @@ ip tcp synwait-time 5
 !
 !
 !
+interface Loopback0
+ ip address 172.20.182.9 255.255.255.255
+!
 interface GigabitEthernet0/0
  ip address 172.31.182.9 255.255.255.240
  duplex auto
@@ -73,8 +77,8 @@ interface GigabitEthernet0/0
  media-type rj45
 !
 interface GigabitEthernet0/1
- no ip address
- shutdown
+ description connect to G0/3 of S2
+ ip address 172.31.182.67 255.255.255.240
  duplex auto
  speed auto
  media-type rj45
@@ -92,6 +96,9 @@ interface GigabitEthernet0/3
  duplex auto
  speed auto
  media-type rj45
+!
+router ospf 1
+ network 172.31.182.67 0.0.0.0 area 0
 !
 ip forward-protocol nd
 !
@@ -151,4 +158,4 @@ no scheduler allocate
 !
 end
 
-Router#
+R5#
