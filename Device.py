@@ -10,7 +10,7 @@ class Device:
         self.ip = ip
         create_config_file.create()
         create_config_file.delete()
-        self.config(self.device, self.ip)
+        self.config()
 
     def create_list(self, path):
         lis = []
@@ -19,7 +19,7 @@ class Device:
                 lis.append(file)
         return lis
 
-    def config(self, device, ip):
+    def config(self):
         counter = 0
         for dev in self.device:
             device_params = {'device_type': 'cisco_ios',
@@ -33,7 +33,7 @@ class Device:
                 devices = yaml.load(open('config_info.yaml'), Loader=yaml.FullLoader)
                 self.write_file(info, "information/{}_info.txt".format(devices[counter]["name"]))
 
-    def delete_config(self, device, ip):
+    def delete_config(self):
         counter = 0
         for dev in self.device:
             device_params = {'device_type': 'cisco_ios',
