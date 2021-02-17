@@ -20,3 +20,11 @@ router ospf 1
  network {{int.ip}} 0.0.0.0 area 0
 {% endfor %}
 {% endif %}
+!
+ip access-list extended block_management
+ deny tcp any 172.31.182.0 0.0.0.31
+ permit any any
+!
+interface gi0/0
+ ip access-group block_management out
+ 
