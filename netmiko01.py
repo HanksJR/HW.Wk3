@@ -7,16 +7,19 @@ password = "cisco"
 command = ""
 
 if __name__ == "__main__":
-    if input() == "create":
+    print("Do you want to create config and delete file?")
+    if input("please type create if you want: ") == "create":
         create.create()
         create.delete()
-    command = input()
+    command = input("you want to config or delete?: ")
     if command == "config":
+        print("Please wait until success")
         path = "/home/devasc/Desktop/NPA.HW.netmiko/router_info"
         d = Device(username, password, path, device_ip)
         d.config()
         print("Success")
     elif command == "delete":
+        print("Please wait until success")
         path = "/home/devasc/Desktop/NPA.HW.netmiko/delete_config"
         d = Device(username, password, path, device_ip)
         d.delete_config()

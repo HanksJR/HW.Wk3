@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 5046 bytes
+Current configuration : 4524 bytes
 !
-! Last configuration change at 12:58:18 UTC Thu Feb 18 2021 by admin
+! Last configuration change at 07:31:33 UTC Sat Feb 20 2021 by admin
 !
 version 15.2
 service timestamps debug datetime msec
@@ -10,7 +10,7 @@ service timestamps log datetime msec
 no service password-encryption
 service compress-config
 !
-hostname S2
+hostname Switch
 !
 boot-start-marker
 boot-end-marker
@@ -28,6 +28,7 @@ no ip routing
 !
 !
 !
+no ip domain-lookup
 ip domain-name npa.com
 no ip cef
 no ipv6 cef
@@ -51,34 +52,31 @@ spanning-tree extend system-id
 !
 !
 !
-interface Loopback0
- ip address 172.20.182.8 255.255.255.255
-!
 interface GigabitEthernet0/0
  switchport access vlan 99
  switchport mode access
  negotiation auto
 !
 interface GigabitEthernet0/1
- description connect to G0/3 of R3
  switchport access vlan 99
  switchport mode access
- ip access-group blockalltraffic in
+ shutdown
  negotiation auto
+ no cdp enable
 !
 interface GigabitEthernet0/2
- description connect to G0/1 of R4
  switchport access vlan 99
  switchport mode access
- ip access-group blockalltraffic in
+ shutdown
  negotiation auto
+ no cdp enable
 !
 interface GigabitEthernet0/3
- description connect to G0/1 of R5
  switchport access vlan 99
  switchport mode access
- ip access-group blockalltraffic in
+ shutdown
  negotiation auto
+ no cdp enable
 !
 interface GigabitEthernet1/0
  switchport access vlan 99
@@ -157,14 +155,6 @@ ip ssh version 2
 ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
-ip access-list extended blockalltraffic
- deny   tcp 172.31.182.0 0.0.0.255 any eq telnet
- deny   tcp 172.31.182.0 0.0.0.255 any eq 22
- deny   ip any 172.31.182.0 0.0.0.15
- permit ip host 172.31.182.30 host 172.31.182.33
- permit ip host 172.31.182.30 172.31.182.16 0.0.0.15
- deny   ip host 172.31.182.30 172.31.182.0 0.0.0.127
- permit ip any any
 !
 !
 !
@@ -208,3 +198,5 @@ line vty 0 4
 !
 !
 end
+
+Switch#

@@ -2,7 +2,6 @@ no hostname
 !
 {% if loopback %}
  no interface loopback 0
- exit
 {% endif %}
 !
 no ip domain-lookup

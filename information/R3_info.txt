@@ -1,17 +1,16 @@
-
 Building configuration...
 
   
-Current configuration : 4110 bytes
+Current configuration : 3386 bytes
 !
-! Last configuration change at 12:57:06 UTC Thu Feb 18 2021 by admin
+! Last configuration change at 07:30:55 UTC Sat Feb 20 2021 by admin
 !
 version 15.7
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname R3
+hostname Router
 !
 boot-start-marker
 boot-end-marker
@@ -38,6 +37,7 @@ no ip icmp rate-limit unreachable
 !
 !
 !
+no ip domain lookup
 ip domain name npa.com
 ip cef
 no ipv6 cef
@@ -51,7 +51,6 @@ username admin privilege 15 password 0 cisco
 !
 redundancy
 !
-lldp run
 no cdp log mismatch duplex
 !
 ip tcp synwait-time 5
@@ -68,9 +67,6 @@ ip tcp synwait-time 5
 !
 !
 !
-interface Loopback0
- ip address 172.20.182.6 255.255.255.255
-!
 interface GigabitEthernet0/0
  ip address 172.31.182.6 255.255.255.240
  duplex auto
@@ -78,33 +74,28 @@ interface GigabitEthernet0/0
  media-type rj45
 !
 interface GigabitEthernet0/1
- description connect to G0/2 of R1
- ip address 172.31.182.34 255.255.255.240
- ip access-group blockalltraffic in
+ no ip address
+ shutdown
  duplex auto
  speed auto
  media-type rj45
+ no cdp enable
 !
 interface GigabitEthernet0/2
- description connect to G0/2 of R2
- ip address 172.31.182.50 255.255.255.240
- ip access-group blockalltraffic in
+ no ip address
+ shutdown
  duplex auto
  speed auto
  media-type rj45
+ no cdp enable
 !
 interface GigabitEthernet0/3
- description connect to G0/1 of S2
- ip address 172.31.182.65 255.255.255.240
- ip access-group blockalltraffic in
+ no ip address
+ shutdown
  duplex auto
  speed auto
  media-type rj45
-!
-router ospf 1
- network 172.31.182.34 0.0.0.0 area 0
- network 172.31.182.50 0.0.0.0 area 0
- network 172.31.182.65 0.0.0.0 area 0
+ no cdp enable
 !
 ip forward-protocol nd
 !
@@ -112,16 +103,8 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 10.253.190.0 255.255.255.0 172.31.182.1
+ip ospf name-lookup
 ip ssh version 2
-!
-ip access-list extended blockalltraffic
- deny   tcp 172.31.182.0 0.0.0.255 any eq telnet
- deny   tcp 172.31.182.0 0.0.0.255 any eq 22
- deny   ip any 172.31.182.0 0.0.0.15
- permit ip host 172.31.182.30 host 172.31.182.33
- permit ip host 172.31.182.30 172.31.182.16 0.0.0.15
- deny   ip host 172.31.182.30 172.31.182.0 0.0.0.127
- permit ip any any
 !
 ipv6 ioam timestamp
 !
@@ -172,3 +155,5 @@ line vty 0 4
 no scheduler allocate
 !
 end
+
+Router#

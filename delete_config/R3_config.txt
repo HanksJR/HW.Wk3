@@ -1,7 +1,6 @@
 no hostname 
 !
  no interface loopback 0
- exit
 !
 no ip domain-lookup
 !
