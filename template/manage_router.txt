@@ -3,34 +3,35 @@ hostname {{name}}
 {% if loopback %}
 interface loopback 0
  ip address 172.20.182.{{num+4}} 255.255.255.255
- exit
 {% endif %}
-!
-ip domain-lookup
-!
-ip access-list extended blockalltraffic
- deny tcp 172.31.182.16 0.0.0.255 any eq 23
- deny tcp 172.31.182.16 0.0.0.255 any eq 22
- deny ip any 172.31.182.0 0.0.0.15
- permit ip 172.31.182.30 0.0.0.0 172.31.182.33 0.0.0.0
- permit ip 172.31.182.30 0.0.0.0 172.31.182.16 0.0.0.15
- deny ip 172.31.182.30 0.0.0.0 172.31.182.32 0.0.0.127
- permit ip any any
 !
 {% for int in interface %}
 interface gi0/{{int.id}}
  {% if router %}
  ip address {{int.ip}} {{int.netmask}}
  {% endif %}
- description {{int.desc}}
- ip access-group blockalltraffic in
  cdp enable
+ ip access-group blockalltraffic in
+ description {{int.desc}}
  no shutdown
  exit
 {% endfor %}
 {% if router %}
 !
+{% if default %}
+access-list 1 permit 172.31.182.0 0.0.0.255
+ip nat pool internet 192.168.122.97 192.168.122.102 netmask 255.255.255.248
+ip nat inside source list 1 pool internet
+interface g0/2
+ ip nat outside
+ exit
+interface g0/1
+ ip nat inside
+ exit
+{% endif %}
+!
 lldp run
+cdp run
 !
 router ospf 1
 {% for int in interface %}
@@ -39,22 +40,20 @@ router ospf 1
 {% if default %}
  default-information originate
 {% endif %}
- exit
-{% if default %}
 !
-ip route 0.0.0.0 0.0.0.0 g0/2
 !
-ip nat pool Public 192.168.122.129 192.168.122.254 netmask 255.255.255.128
+ip domain-lookup
 !
-access-list 1 permit 172.31.182.0 0.0.0.255
-!
-ip nat inside source list 1 pool Public  overload
-!
-interface g0/2
- ip nat outside
- exit
-interface g0/1
- ip nat inside
- exit
+ip access-list extended blockalltraffic
+ permit ip 172.31.182.30 0.0.0.0 172.31.182.33 0.0.0.0
+ permit ip 172.31.182.30 0.0.0.0 172.31.182.16 0.0.0.15
+ deny ip 172.31.182.30 0.0.0.0 172.31.182.32 0.0.0.127
+ permit tcp any 172.31.182.0 0.0.0.15 eq 22
+ permit tcp any 172.31.182.0 0.0.0.15 eq 23
+ permit icmp any 172.31.182.0 0.0.0.15
+ deny tcp 172.31.182.16 0.0.0.255 any eq 23
+ deny tcp 172.31.182.16 0.0.0.255 any eq 22
+ deny ip any 172.31.182.0 0.0.0.15
+ permit ip any any
 {% endif %}
-{% endif %}
+
