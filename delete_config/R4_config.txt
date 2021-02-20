@@ -1,14 +1,20 @@
 no hostname 
 !
-no interface loopback 0
+ no interface loopback 0
+ exit
+!
+no ip domain-lookup
+!
+no ip access-list extended blockalltraffic
 !
 interface gi0/1
  no ip address
+ no ip access-group blockalltraffic in
  no description
+ no cdp enable
  shutdown
  exit
 !
 no lldp run
-no cdp enable
 !
 no router ospf 1

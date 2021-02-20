@@ -1,22 +1,42 @@
 no hostname 
 !
 {% if loopback %}
-no interface loopback 0
+ no interface loopback 0
+ exit
 {% endif %}
+!
+no ip domain-lookup
+!
+no ip access-list extended blockalltraffic
 !
 {% for int in interface %}
 interface gi0/{{int.id}}
  {% if router %}
  no ip address
  {% endif %}
+ no ip access-group blockalltraffic in
  no description
+ no cdp enable
  shutdown
  exit
 {% endfor %}
 {% if router %}
 !
 no lldp run
-no cdp enable
 !
 no router ospf 1
+{% if default %}
+no ip route 0.0.0.0 0.0.0.0
+!
+no access-list 1
+!
+no ip nat source list 1 interface g0/2 overload
+!
+interface g0/2
+ no ip nat outside
+ exit
+interface g0/1
+ no ip nat inside
+ exit
+{% endif %}
 {% endif %}
