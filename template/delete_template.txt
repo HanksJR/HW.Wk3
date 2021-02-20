@@ -8,6 +8,9 @@ no hostname
 no ip domain-lookup
 !
 no ip access-list extended blockalltraffic
+{% if default %}
+no access-list 1
+{% endif %}
 !
 {% for int in interface %}
 interface gi0/{{int.id}}
@@ -27,8 +30,6 @@ no lldp run
 no router ospf 1
 {% if default %}
 no ip route 0.0.0.0 0.0.0.0
-!
-no access-list 1
 !
 no ip nat source list 1 interface g0/2 overload
 !
