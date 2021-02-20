@@ -3,7 +3,7 @@ Building configuration...
   
 Current configuration : 3351 bytes
 !
-! Last configuration change at 07:30:27 UTC Sat Feb 20 2021 by admin
+! Last configuration change at 11:48:45 UTC Sat Feb 20 2021 by admin
 !
 version 15.7
 service timestamps debug datetime msec
@@ -153,3 +153,5 @@ line vty 0 4
 no scheduler allocate
 !
 end
+
+Router#

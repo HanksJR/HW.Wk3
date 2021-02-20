@@ -26,4 +26,14 @@ if __name__ == "__main__":
         print("Success")
     else:
         print("command error")
+    print("You want to save config? [y/n]: ")
+    check = input()
+    if check == "y":
+        d = Device(username, password, path, device_ip)
+        print("System is saving.......")
+        d.save()
+        print("Done")
+    elif check == "n":
+        print("Done")
+        pass 
     

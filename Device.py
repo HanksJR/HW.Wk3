@@ -43,3 +43,16 @@ class Device:
     def write_file(self, info, name):
         with open(name, "w") as f:
             f.write(info)
+
+    def save():
+        counter = 0
+        for dev in self.device:
+            device_params = {'device_type': 'cisco_ios',
+                                'ip': self.ip[counter],
+                                'username': self.username,
+                                'password': self.password,
+                                }
+            with ConnectHandler(**device_params) as ssh:
+                ssh.save_config()
+        counter += 1
+                

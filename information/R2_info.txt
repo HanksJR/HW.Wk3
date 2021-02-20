@@ -1,9 +1,9 @@
 Building configuration...
 
   
-Current configuration : 3400 bytes
+Current configuration : 3351 bytes
 !
-! Last configuration change at 07:30:41 UTC Sat Feb 20 2021 by admin
+! Last configuration change at 11:48:58 UTC Sat Feb 20 2021 by admin
 !
 version 15.7
 service timestamps debug datetime msec
@@ -39,7 +39,6 @@ no ip icmp rate-limit unreachable
 !
 no ip domain lookup
 ip domain name npa.com
-ip name-server 172.31.182.67
 ip cef
 no ipv6 cef
 !
@@ -103,7 +102,6 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 10.253.190.0 255.255.255.0 172.31.182.1
-ip ospf name-lookup
 ip ssh version 2
 !
 ipv6 ioam timestamp

@@ -44,9 +44,11 @@ router ospf 1
 !
 ip route 0.0.0.0 0.0.0.0 g0/2
 !
+ip nat pool Public 192.168.122.129 192.168.122.254 netmask 255.255.255.128
+!
 access-list 1 permit 172.31.182.0 0.0.0.255
 !
-ip nat source list 1 interface g0/2 overload
+ip nat inside source list 1 pool Public  overload
 !
 interface g0/2
  ip nat outside
