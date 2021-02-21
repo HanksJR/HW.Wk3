@@ -44,7 +44,7 @@ class Device:
         with open(name, "w") as f:
             f.write(info)
 
-    def save():
+    def save(self):
         counter = 0
         for dev in self.device:
             device_params = {'device_type': 'cisco_ios',
